@@ -1,25 +1,30 @@
 import '../scss/app.scss'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
+import qs from 'qs'
 import axios from 'axios'
 import PizzaBlock from '../components/PizzaBlock'
 import Categories from '../components/Categories'
-import Sort from '../components/Sort'
+import Sort, { list } from '../components/Sort'
 import PizzaBlockSkeleton from '../components/PizzaBlockSkeleton'
 import Pagination from '../components/Pagination'
 import { SearchContext } from '../App'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
-import { setPageCount } from '../redux/slices/filterSlice'
+import { useNavigate } from 'react-router-dom'
+import { setParams } from '../redux/slices/filterSlice'
 
 function Home() {
   const [pizzas, setPizzas] = useState([] as PizzaBlock[])
   const [isLoading, setIsLoading] = useState(true)
+  const isSearch = useRef(false)
+  const isMounted = useRef(false)
 
   const { searchValue } = useContext(SearchContext)
-
   const { categoryId, sort, currentPage } = useSelector((state: RootState) => state.filterSlice)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  React.useEffect(() => {
+  const fetchPizzas = () => {
     setIsLoading(true)
     // window.scrollTo(0, 0)
 
@@ -35,7 +40,40 @@ function Home() {
         setPizzas(res.data)
         setIsLoading(false)
       })
+  }
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1))
+      const sort = list.find((e) => (e.sortProperty === params.sortProperty ? e.name : ''))
+      dispatch(
+        setParams({
+          ...params,
+          sort,
+        }),
+      )
+      isSearch.current = true
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (!isSearch.current) fetchPizzas()
+
+    isSearch.current = false
   }, [currentPage, categoryId, searchValue, sort])
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage,
+      })
+
+      navigate(`?${queryString}`)
+    }
+    isMounted.current = true
+  }, [currentPage, categoryId, sort])
 
   return (
     <div className="container">
