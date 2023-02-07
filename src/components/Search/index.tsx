@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import debounce from 'lodash.debounce'
+// import debounce from 'lodash.debounce'
 import { SearchContext } from '../../App'
 import style from './Search.module.scss'
 
@@ -20,7 +20,6 @@ const Search = () => {
   const debounceFunc = useCallback(
     debounce((e: string) => {
       setSearchValue(e)
-      console.log('отправляем в axios')
     }, 500),
     [],
   )
@@ -111,4 +110,16 @@ const SearchIcon = () => {
       ></line>
     </svg>
   )
+}
+
+const debounce = <T extends any[]>(func: (...args: T) => void, wait: number) => {
+  let timeout: number
+
+  return (...arg: T) => {
+    clearTimeout(timeout)
+
+    timeout = setTimeout(() => {
+      func(...arg)
+    }, wait)
+  }
 }
