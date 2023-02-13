@@ -1,10 +1,10 @@
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useAppSelector } from '../redux/hooks'
 import { RootState } from '../redux/store'
 import Search from './Search'
 
 const Header = () => {
-  const { totalItems, totalPrice } = useSelector((state: RootState) => state.cartSlice)
+  const { totalItems, totalPrice } = useAppSelector((state: RootState) => state.cartSlice)
   return (
     <div>
       <div className="header">

@@ -1,9 +1,8 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch } from '../redux/hooks'
 import { setCategoryId } from '../redux/slices/filterSlice'
 
 const Categories = ({ value }: { value: number }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
   return (

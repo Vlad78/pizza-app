@@ -8,10 +8,10 @@ import Sort, { list } from '../components/Sort'
 import PizzaBlockSkeleton from '../components/PizzaBlockSkeleton'
 import Pagination from '../components/Pagination'
 import { SearchContext } from '../App'
-import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
 import { useNavigate } from 'react-router-dom'
 import { setParams } from '../redux/slices/filterSlice'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
 
 function Home() {
   const [pizzas, setPizzas] = useState([] as PizzaBlock[])
@@ -20,8 +20,8 @@ function Home() {
   const isMounted = useRef(false)
 
   const { searchValue } = useContext(SearchContext)
-  const { categoryId, sort, currentPage } = useSelector((state: RootState) => state.filterSlice)
-  const dispatch = useDispatch()
+  const { categoryId, sort, currentPage } = useAppSelector((state: RootState) => state.filterSlice)
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const fetchPizzas = () => {

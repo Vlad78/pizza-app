@@ -1,7 +1,7 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../redux/store'
 import { setSort } from '../redux/slices/filterSlice'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
 
 export const list = [
   { name: 'популярности', sortProperty: 'rating' },
@@ -12,8 +12,8 @@ export const list = [
 const Sort = () => {
   const [isVisible, setIsVisible] = React.useState(false)
   const sortRef = React.useRef<HTMLDivElement>(null)
-  const sort = useSelector((state: RootState) => state.filterSlice.sort)
-  const dispatch = useDispatch()
+  const sort = useAppSelector((state: RootState) => state.filterSlice.sort)
+  const dispatch = useAppDispatch()
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
