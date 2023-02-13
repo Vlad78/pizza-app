@@ -1,18 +1,29 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../redux/store'
-import { filterSlice, setSort } from '../redux/slices/filterSlice'
+import { setSort } from '../redux/slices/filterSlice'
+
+export const list = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: 'title' },
+]
 
 const Sort = () => {
+  const [isVisible, setIsVisible] = React.useState(false)
+  const sortRef = React.useRef<HTMLDivElement>(null)
   const sort = useSelector((state: RootState) => state.filterSlice.sort)
   const dispatch = useDispatch()
 
-  const [isVisible, setIsVisible] = React.useState(false)
-  const list = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: 'title' },
-  ]
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      let path = event.composedPath().includes(sortRef.current!)
+      if (!path) setIsVisible(false)
+    }
+
+    document.body.addEventListener('click', handleClickOutside)
+    return () => document.body.removeEventListener('click', handleClickOutside)
+  }, [])
 
   const handleClick = (e: (typeof list)[0]) => {
     setIsVisible(!isVisible)
@@ -20,7 +31,7 @@ const Sort = () => {
   }
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
