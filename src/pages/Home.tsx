@@ -24,7 +24,7 @@ function Home() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setIsLoading(true)
     // window.scrollTo(0, 0)
 
@@ -32,14 +32,17 @@ function Home() {
     const category = categoryId > 0 ? `&category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
 
-    axios
-      .get(
+    try {
+      const res = await axios.get(
         `https://63d6bd1f94e769375bb6bc83.mockapi.io/Pizzas?page=${currentPage}&limit=4${search}${category}&sortBy=${sortBy}`,
       )
-      .then((res) => {
-        setPizzas(res.data)
-        setIsLoading(false)
-      })
+
+      setPizzas(res.data)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   React.useEffect(() => {
