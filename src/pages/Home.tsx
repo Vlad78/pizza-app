@@ -12,15 +12,17 @@ import { RootState } from '../redux/store'
 import { useNavigate } from 'react-router-dom'
 import { setParams } from '../redux/slices/filterSlice'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { setPizzas } from '../redux/slices/pizzasSlice'
 
 function Home() {
-  const [pizzas, setPizzas] = useState([] as PizzaBlock[])
+  // const [pizzas, setPizzas] = useState([] as PizzaBlock[])
   const [isLoading, setIsLoading] = useState(true)
   const isSearch = useRef(false)
   const isMounted = useRef(false)
 
   const { searchValue } = useContext(SearchContext)
   const { categoryId, sort, currentPage } = useAppSelector((state: RootState) => state.filterSlice)
+  const { pizzas } = useAppSelector((state: RootState) => state.pizzasSlice)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -37,7 +39,8 @@ function Home() {
         `https://63d6bd1f94e769375bb6bc83.mockapi.io/Pizzas?page=${currentPage}&limit=4${search}${category}&sortBy=${sortBy}`,
       )
 
-      setPizzas(res.data)
+      // setPizzas(res.data)
+      dispatch(setPizzas(res.data))
     } catch (error) {
       console.log(error)
     } finally {
