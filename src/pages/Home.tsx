@@ -1,7 +1,6 @@
 import '../scss/app.scss'
 import React, { useContext, useRef, useState } from 'react'
 import qs from 'qs'
-import axios from 'axios'
 import PizzaBlock from '../components/PizzaBlock'
 import Categories from '../components/Categories'
 import Sort, { list } from '../components/Sort'
@@ -12,40 +11,26 @@ import { RootState } from '../redux/store'
 import { useNavigate } from 'react-router-dom'
 import { setParams } from '../redux/slices/filterSlice'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { setPizzas } from '../redux/slices/pizzasSlice'
+import { fetchPizzas } from '../redux/slices/pizzasSlice'
 
 function Home() {
-  // const [pizzas, setPizzas] = useState([] as PizzaBlock[])
-  const [isLoading, setIsLoading] = useState(true)
   const isSearch = useRef(false)
   const isMounted = useRef(false)
 
   const { searchValue } = useContext(SearchContext)
   const { categoryId, sort, currentPage } = useAppSelector((state: RootState) => state.filterSlice)
-  const { pizzas } = useAppSelector((state: RootState) => state.pizzasSlice)
+  const { pizzas, loading } = useAppSelector((state: RootState) => state.pizzasSlice)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const fetchPizzas = async () => {
-    setIsLoading(true)
+  const getPizzas = async () => {
     // window.scrollTo(0, 0)
 
     const sortBy = sort.sortProperty.replace('-', '')
     const category = categoryId > 0 ? `&category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
 
-    try {
-      const res = await axios.get(
-        `https://63d6bd1f94e769375bb6bc83.mockapi.io/Pizzas?page=${currentPage}&limit=4${search}${category}&sortBy=${sortBy}`,
-      )
-
-      // setPizzas(res.data)
-      dispatch(setPizzas(res.data))
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setIsLoading(false)
-    }
+    dispatch(fetchPizzas({ currentPage, sortBy, category, search }))
   }
 
   React.useEffect(() => {
@@ -63,7 +48,8 @@ function Home() {
   }, [])
 
   React.useEffect(() => {
-    if (!isSearch.current) fetchPizzas()
+    // if (!isSearch.current)
+    getPizzas()
 
     isSearch.current = false
   }, [currentPage, categoryId, searchValue, sort])
@@ -89,9 +75,10 @@ function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading
-          ? [...new Array(10)].map((e, i) => <PizzaBlockSkeleton key={i} />)
+        {loading === 'pending'
+          ? [...new Array(8)].map((e, i) => <PizzaBlockSkeleton key={i} />)
           : pizzas.map((e) => <PizzaBlock {...e} key={e.id} />)}
+        {loading === 'failed' ? <h3>Произошла ошибка</h3> : ''}
       </div>
       <Pagination currentPage={currentPage} />
     </div>
