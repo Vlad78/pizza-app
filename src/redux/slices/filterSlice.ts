@@ -4,6 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 export type FilterState = typeof initialState
 
 const initialState = {
+  searchValue: '',
   categoryId: 0,
   currentPage: 1,
   sort: {
@@ -16,6 +17,9 @@ export const filterSlice = createSlice({
   name: 'filters',
   initialState,
   reducers: {
+    setSearchValue(state, action) {
+      state.searchValue = action.payload
+    },
     setCategoryId(state, action) {
       state.categoryId = action.payload
     },
@@ -33,5 +37,5 @@ export const filterSlice = createSlice({
   },
 })
 
-export const { setCategoryId, setSort, setPageCount, setParams } = filterSlice.actions
+export const { setSearchValue, setCategoryId, setSort, setPageCount, setParams } = filterSlice.actions
 export default filterSlice.reducer

@@ -1,25 +1,21 @@
-import React, {
-  InputHTMLAttributes,
-  LegacyRef,
-  MutableRefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useRef, useState } from 'react'
+
 // import debounce from 'lodash.debounce'
-import { SearchContext } from '../../App'
+
+import { useAppDispatch } from '../../redux/hooks'
+import { setSearchValue } from '../../redux/slices/filterSlice'
 import style from './Search.module.scss'
 
 const Search = () => {
-  const { searchValue, setSearchValue } = React.useContext(SearchContext)
+  // const { searchValue, setSearchValue } = React.useContext(SearchContext)
+  const dispatch = useAppDispatch()
   const [value, setValue] = useState('')
 
   const inputRef = useRef<HTMLInputElement>(null)
 
   const debounceFunc = useCallback(
     debounce((e: string) => {
-      setSearchValue(e)
+      dispatch(setSearchValue(e))
     }, 500),
     [],
   )
@@ -31,7 +27,7 @@ const Search = () => {
 
   const onEraseClickHandler = () => {
     setValue('')
-    setSearchValue('')
+    dispatch(setSearchValue(''))
     inputRef.current?.focus
   }
 
