@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { addItem } from '../redux/slices/cartSlice'
+import { addItem, selectCart } from '../redux/slices/cartSlice'
 
 type PizzaBlock = {
   size?: number
@@ -22,7 +22,8 @@ const PizzaBlock = (props: PizzaBlock) => {
   const [type, setType] = React.useState(props.types[0])
   const [size, setSize] = React.useState(0)
   const dispatch = useAppDispatch()
-  const counter = useAppSelector((store) => store.cartSlice.items.filter((e) => e.id === props.id))
+
+  const counter = useAppSelector(selectCart).items.filter((e) => e.id === props.id)
 
   const onClickAdd = () => {
     const item = {

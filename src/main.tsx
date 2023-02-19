@@ -11,3 +11,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </Provider>
   </BrowserRouter>,
 )
+
+// TODO разобраться подробно в работе класса Promise, async, await
+// TODO thunkAPI - узнать про прерывание запроса

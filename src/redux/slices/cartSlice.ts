@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import PizzaBlock from '../../components/PizzaBlock'
+import { RootState } from '../store'
 
 const initialState = {
   totalPrice: 0,
@@ -57,6 +58,8 @@ export const cartSlice = createSlice({
     },
   },
 })
+
+export const selectCart = (state: RootState) => state.cartSlice
 
 export const { addItem, removeItem, removeItemType, clearItems } = cartSlice.actions
 export default cartSlice.reducer

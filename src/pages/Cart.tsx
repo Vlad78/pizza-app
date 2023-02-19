@@ -1,13 +1,13 @@
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { Link } from 'react-router-dom'
 import CartItem from '../components/CartItem'
-import { clearItems } from '../redux/slices/cartSlice'
-import PizzaBlock from '../components/PizzaBlock'
+import { clearItems, selectCart } from '../redux/slices/cartSlice'
+
 import CartIsEmpty from '../components/CartIsEmpty'
 
 const Cart = () => {
   const dispatch = useAppDispatch()
-  const cart = useAppSelector((store) => store.cartSlice)
+  const cart = useAppSelector(selectCart)
 
   if (!cart.totalPrice) return <CartIsEmpty />
 

@@ -4,7 +4,7 @@ import PizzaBlock from '../../components/PizzaBlock'
 import axios from 'axios'
 
 export const fetchPizzas = createAsyncThunk(
-  'pizzas/fetchPizzasById',
+  'pizzas/fetchPizzas',
   async (params: { currentPage: number; sortBy: string; category: string; search: string }) => {
     const { currentPage, sortBy, category, search } = params
     const res = await axios.get(
