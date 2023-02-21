@@ -1,11 +1,12 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import PizzaBlock from '../components/PizzaBlock'
 
 const ItemPage = () => {
   const { id } = useParams()
   const [pizza, setPizza] = useState<PizzaBlock | null>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getData = async () => {
@@ -13,7 +14,7 @@ const ItemPage = () => {
         const { data } = await axios.get(`https://63d6bd1f94e769375bb6bc83.mockapi.io/Pizzas/${id}`)
         setPizza(data)
       } catch (error) {
-        console.log(error)
+        navigate('/')
       }
     }
     getData()
