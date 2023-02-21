@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useAppSelector } from '../redux/hooks'
 import { selectCart } from '../redux/slices/cartSlice'
 import Search from './Search'
 
 const Header = () => {
   const { totalItems, totalPrice } = useAppSelector(selectCart)
+  const pathname = useLocation()
   return (
     <div>
       <div className="header">
@@ -22,12 +23,14 @@ const Header = () => {
           <Search />
 
           <div className="header__cart">
-            <Link className="button button--cart" to="/cart">
-              <span>{totalPrice} ₽</span>
-              <div className="button__delimiter"></div>
-              <CartIcon />
-              <span>{totalItems}</span>
-            </Link>
+            {pathname.pathname !== '/cart' && (
+              <Link className="button button--cart" to="/cart">
+                <span>{totalPrice} ₽</span>
+                <div className="button__delimiter"></div>
+                <CartIcon />
+                <span>{totalItems}</span>
+              </Link>
+            )}
           </div>
         </div>
       </div>

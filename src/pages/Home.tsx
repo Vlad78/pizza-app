@@ -6,7 +6,7 @@ import Categories from '../components/Categories'
 import Sort, { list } from '../components/Sort'
 import PizzaBlockSkeleton from '../components/PizzaBlockSkeleton'
 import Pagination from '../components/Pagination'
-// import { SearchContext } from '../App'
+
 import { RootState } from '../redux/store'
 import { useNavigate } from 'react-router-dom'
 import { setParams } from '../redux/slices/filterSlice'
@@ -17,7 +17,6 @@ function Home() {
   const isSearch = useRef(false)
   const isMounted = useRef(false)
 
-  // const { searchValue } = useContext(SearchContext)
   const { searchValue, categoryId, sort, currentPage } = useAppSelector((state: RootState) => state.filterSlice)
   const { pizzas, loading } = useAppSelector((state: RootState) => state.pizzasSlice)
   const dispatch = useAppDispatch()

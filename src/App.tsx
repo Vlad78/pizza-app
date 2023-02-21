@@ -8,7 +8,6 @@ import Cart from './pages/Cart'
 import React from 'react'
 
 function App() {
-  const [searchValue, setSearchValue] = React.useState('')
   return (
     <div className="wrapper">
       <Header />

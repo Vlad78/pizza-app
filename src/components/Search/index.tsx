@@ -7,7 +7,6 @@ import { setSearchValue } from '../../redux/slices/filterSlice'
 import style from './Search.module.scss'
 
 const Search = () => {
-  // const { searchValue, setSearchValue } = React.useContext(SearchContext)
   const dispatch = useAppDispatch()
   const [value, setValue] = useState('')
 
