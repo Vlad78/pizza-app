@@ -3,7 +3,7 @@ import { useAppSelector } from '../redux/hooks'
 import { selectCart } from '../redux/slices/cartSlice'
 import Search from './Search'
 
-const Header = () => {
+const Header: React.FC = () => {
   const { totalItems, totalPrice } = useAppSelector(selectCart)
   const pathname = useLocation()
   return (

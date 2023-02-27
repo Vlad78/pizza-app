@@ -3,12 +3,17 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import PizzaBlock from '../../components/PizzaBlock'
 import { RootState } from '../store'
 
-const initialState = {
+export interface cartState {
+  totalPrice: number
+  totalItems: number
+  items: PizzaBlock[]
+}
+
+const initialState: cartState = {
   totalPrice: 0,
   totalItems: 0,
-  items: [] as PizzaBlock[],
+  items: [],
 }
-export type CartState = typeof initialState
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -29,13 +34,16 @@ export const cartSlice = createSlice({
         (e) => e.type === action.payload.type && e.id === action.payload.id && e.size === action.payload.size,
       )
 
-      if (item) {
+      if (item && item.counter > 0) {
         item.counter--
-        if (item.counter < 1)
-          state.items = state.items.filter((e) => {
-            return e.type !== action.payload.type || e.id !== action.payload.id || e.size !== action.payload.size
-          })
+
+        if (item.counter < 1) {
+          state.items = state.items.filter(
+            (e) => e.type !== action.payload.type || e.id !== action.payload.id || e.size !== action.payload.size,
+          )
+        }
       }
+
       state.totalPrice = state.items.reduce((acc, CV) => acc + CV.price * CV.counter, 0)
       state.totalItems = state.items.reduce((acc, CV) => acc + CV.counter, 0)
     },

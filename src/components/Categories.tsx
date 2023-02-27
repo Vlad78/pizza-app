@@ -1,9 +1,10 @@
 import { useAppDispatch } from '../redux/hooks'
 import { setCategoryId } from '../redux/slices/filterSlice'
 
-const Categories = ({ value }: { value: number }) => {
+const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
+
+const Categories: React.FC<{ value: number }> = ({ value }) => {
   const dispatch = useAppDispatch()
-  const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
   return (
     <div className="categories">

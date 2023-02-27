@@ -5,7 +5,7 @@ import { clearItems, selectCart } from '../redux/slices/cartSlice'
 
 import CartIsEmpty from '../components/CartIsEmpty'
 
-const Cart = () => {
+const Cart: React.FC = () => {
   const dispatch = useAppDispatch()
   const cart = useAppSelector(selectCart)
 

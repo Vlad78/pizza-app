@@ -19,7 +19,7 @@ type PizzaBlock = {
 }
 const types = ['тонкое', 'традиционное']
 
-const PizzaBlock = (props: PizzaBlock) => {
+const PizzaBlock: React.FC<PizzaBlock> = (props) => {
   const [type, setType] = React.useState(props.types[0])
   const [size, setSize] = React.useState(0)
   const dispatch = useAppDispatch()

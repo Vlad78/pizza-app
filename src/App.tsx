@@ -6,7 +6,7 @@ import Cart from './pages/Cart'
 import ItemPage from './pages/ItemPage'
 import MainLayout from './layouts/MainLayout'
 
-function App() {
+const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>

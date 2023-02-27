@@ -5,7 +5,7 @@ import PizzaBlock from '../components/PizzaBlock'
 
 const ItemPage = () => {
   const { id } = useParams()
-  const [pizza, setPizza] = useState<PizzaBlock | null>(null)
+  const [pizza, setPizza] = useState<PizzaBlock>()
   const navigate = useNavigate()
 
   useEffect(() => {

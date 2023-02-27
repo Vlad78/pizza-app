@@ -1,12 +1,10 @@
-import React, { useCallback, useRef, useState } from 'react'
-
+import { useCallback, useRef, useState } from 'react'
 // import debounce from 'lodash.debounce'
-
 import { useAppDispatch } from '../../redux/hooks'
 import { setSearchValue } from '../../redux/slices/filterSlice'
 import style from './Search.module.scss'
 
-const Search = () => {
+const Search: React.FC = () => {
   const dispatch = useAppDispatch()
   const [value, setValue] = useState('')
 
@@ -41,7 +39,7 @@ const Search = () => {
         onChange={(e) => onInputChange(e.target.value)}
       />
       {value && (
-        <div onClick={() => onEraseClickHandler()}>
+        <div onClick={onEraseClickHandler}>
           <svg
             className={style.clearIcon}
             width="800px"

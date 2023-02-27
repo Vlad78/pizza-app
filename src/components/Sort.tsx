@@ -1,31 +1,23 @@
 import React from 'react'
-import { RootState } from '../redux/store'
-import { setSort } from '../redux/slices/filterSlice'
+import { setSort, SortProps, sortTypeList } from '../redux/slices/filterSlice'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 
-export const list = [
-  { name: 'популярности', sortProperty: 'rating' },
-  { name: 'цене', sortProperty: 'price' },
-  { name: 'алфавиту', sortProperty: 'title' },
-]
-
-const Sort = () => {
+const Sort: React.FC = () => {
   const [isVisible, setIsVisible] = React.useState(false)
   const sortRef = React.useRef<HTMLDivElement>(null)
-  const sort = useAppSelector((state: RootState) => state.filterSlice.sort)
+  const sort = useAppSelector((state) => state.filterSlice.sort)
   const dispatch = useAppDispatch()
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      let path = event.composedPath().includes(sortRef.current!)
-      if (!path) setIsVisible(false)
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) setIsVisible(false)
     }
 
     document.body.addEventListener('click', handleClickOutside)
     return () => document.body.removeEventListener('click', handleClickOutside)
   }, [])
 
-  const handleClick = (e: (typeof list)[0]) => {
+  const handleClick = (e: SortProps) => {
     setIsVisible(!isVisible)
     dispatch(setSort(e))
   }
@@ -45,7 +37,7 @@ const Sort = () => {
       {isVisible && (
         <div className="sort__popup">
           <ul>
-            {list.map((e, idx) => (
+            {sortTypeList.map((e, idx) => (
               <li
                 key={`${e}_${idx}`}
                 onClick={() => handleClick(e)}

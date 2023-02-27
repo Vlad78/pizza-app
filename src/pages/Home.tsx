@@ -1,19 +1,19 @@
 import '../scss/app.scss'
-import React, { useContext, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import qs from 'qs'
 import PizzaBlock from '../components/PizzaBlock'
 import Categories from '../components/Categories'
-import Sort, { list } from '../components/Sort'
 import PizzaBlockSkeleton from '../components/PizzaBlockSkeleton'
 import Pagination from '../components/Pagination'
 
 import { RootState } from '../redux/store'
 import { useNavigate } from 'react-router-dom'
-import { setParams } from '../redux/slices/filterSlice'
+import { setParams, sortTypeList } from '../redux/slices/filterSlice'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { fetchPizzas } from '../redux/slices/pizzasSlice'
+import Sort from '../components/Sort'
 
-function Home() {
+const Home: React.FC = () => {
   const isSearch = useRef(false)
   const isMounted = useRef(false)
 
@@ -29,19 +29,23 @@ function Home() {
     const category = categoryId > 0 ? `&category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
 
-    dispatch(fetchPizzas({ currentPage, sortBy, category, search }))
+    dispatch(fetchPizzas({ currentPage: currentPage.toString(), sortBy, category, search }))
   }
 
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1))
-      const sort = list.find((e) => (e.sortProperty === params.sortProperty ? e.name : ''))
+
+      const sort = sortTypeList.find((e) => (e.sortProperty === params.sortProperty ? e.name : ''))
+
       dispatch(
         setParams({
-          ...params,
-          sort,
+          categoryId: Number(params.categoryId),
+          currentPage: Number(params.currentPage),
+          sort: sort || sortTypeList[0],
         }),
       )
+
       isSearch.current = true
     }
   }, [])

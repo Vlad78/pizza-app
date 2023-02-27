@@ -3,7 +3,7 @@ import { useAppDispatch } from '../redux/hooks'
 import { setPageCount } from '../redux/slices/filterSlice'
 import style from './Sass/Pagination.module.scss'
 
-const Pagination = ({ currentPage }: { currentPage: number }) => {
+const Pagination: React.FC<{ currentPage: number }> = ({ currentPage }) => {
   const dispatch = useAppDispatch()
 
   return (
