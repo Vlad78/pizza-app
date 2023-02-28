@@ -3,6 +3,8 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import PizzaBlock from '../../components/PizzaBlock'
 import { RootState } from '../store'
 import { getItemsFromLS } from '../../utils/getItemsFromLS'
+import { getTotalPrice } from '../../utils/getTotalPrice'
+import { getTotalItems } from '../../utils/getTotalItems'
 
 export interface cartState {
   totalPrice: number
@@ -29,8 +31,8 @@ export const cartSlice = createSlice({
 
       item ? item.counter++ : state.items.push(action.payload)
 
-      state.totalPrice = state.items.reduce((acc, CV) => acc + CV.price * CV.counter, 0)
-      state.totalItems = state.items.reduce((acc, CV) => acc + CV.counter, 0)
+      state.totalPrice = getTotalPrice(state)
+      state.totalItems = getTotalItems(state)
     },
     removeItem(state, action: PayloadAction<PizzaBlock>) {
       let item = state.items.find(
@@ -47,8 +49,8 @@ export const cartSlice = createSlice({
         }
       }
 
-      state.totalPrice = state.items.reduce((acc, CV) => acc + CV.price * CV.counter, 0)
-      state.totalItems = state.items.reduce((acc, CV) => acc + CV.counter, 0)
+      state.totalPrice = getTotalPrice(state)
+      state.totalItems = getTotalItems(state)
     },
     removeItemType(state, action: PayloadAction<PizzaBlock>) {
       let item = state.items.find(
@@ -59,13 +61,13 @@ export const cartSlice = createSlice({
           (e) => e.type !== action.payload.type || e.id !== action.payload.id || e.size !== action.payload.size,
         )
       }
-      state.totalPrice = state.items.reduce((acc, CV) => acc + CV.price * CV.counter, 0)
-      state.totalItems = state.items.reduce((acc, CV) => acc + CV.counter, 0)
+      state.totalPrice = getTotalPrice(state)
+      state.totalItems = getTotalItems(state)
     },
     clearItems(state) {
       state.items = []
-      state.totalPrice = state.items.reduce((acc, CV) => acc + CV.price * CV.counter, 0)
-      state.totalItems = state.items.reduce((acc, CV) => acc + CV.counter, 0)
+      state.totalPrice = 0
+      state.totalItems = 0
     },
   },
 })
