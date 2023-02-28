@@ -1,11 +1,19 @@
+import React, { useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAppSelector } from '../redux/hooks'
 import { selectCart } from '../redux/slices/cartSlice'
 import Search from './Search'
 
 const Header: React.FC = () => {
-  const { totalItems, totalPrice } = useAppSelector(selectCart)
+  const { totalItems, totalPrice, items } = useAppSelector(selectCart)
   const pathname = useLocation()
+  const isMounted = useRef(false)
+
+  React.useEffect(() => {
+    isMounted.current && localStorage.setItem('items', JSON.stringify({ totalItems, totalPrice, items }))
+    isMounted.current = true
+  }, [totalItems])
+
   return (
     <div>
       <div className="header">

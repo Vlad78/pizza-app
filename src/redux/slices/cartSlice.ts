@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import PizzaBlock from '../../components/PizzaBlock'
 import { RootState } from '../store'
+import { getItemsFromLS } from '../../utils/getItemsFromLS'
 
 export interface cartState {
   totalPrice: number
@@ -9,10 +10,12 @@ export interface cartState {
   items: PizzaBlock[]
 }
 
+const { totalItems, totalPrice, items } = getItemsFromLS()
+
 const initialState: cartState = {
-  totalPrice: 0,
-  totalItems: 0,
-  items: [],
+  totalPrice: totalPrice,
+  totalItems: totalItems,
+  items: items,
 }
 
 export const cartSlice = createSlice({
