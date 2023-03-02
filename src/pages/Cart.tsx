@@ -1,9 +1,8 @@
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { Link } from 'react-router-dom'
-import CartItem from '../components/CartItem'
 import { clearItems, selectCart } from '../redux/slices/cartSlice'
 
-import CartIsEmpty from '../components/CartIsEmpty'
+import { CartIsEmpty, CartItem } from '../components'
 
 const Cart: React.FC = () => {
   const dispatch = useAppDispatch()

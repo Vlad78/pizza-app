@@ -1,17 +1,14 @@
 import '../scss/app.scss'
 import React, { useRef } from 'react'
 import qs from 'qs'
-import PizzaBlock from '../components/PizzaBlock'
-import Categories from '../components/Categories'
-import PizzaBlockSkeleton from '../components/PizzaBlockSkeleton'
-import Pagination from '../components/Pagination'
+
+import { PizzaBlock, Categories, PizzaBlockSkeleton, Pagination, Sort } from '../components'
 
 import { RootState } from '../redux/store'
 import { useNavigate } from 'react-router-dom'
 import { setParams, sortTypeList } from '../redux/slices/filterSlice'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { fetchPizzas } from '../redux/slices/pizzasSlice'
-import Sort from '../components/Sort'
 
 const Home: React.FC = () => {
   const isSearch = useRef(false)
