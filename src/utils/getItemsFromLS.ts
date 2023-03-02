@@ -4,7 +4,7 @@ export const getItemsFromLS = () => {
   const dataString = localStorage.getItem('items')
   if (dataString) {
     const data = JSON.parse(dataString)
-    console.log(data)
+
     return {
       totalPrice: data.totalPrice,
       totalItems: data.totalItems,
